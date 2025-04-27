@@ -37,6 +37,7 @@ import CountDisplay from './components/CountDisplay';
 import ChantHistory from './components/ChantHistory';
 import Timer from './components/Timer';
 import ScrollingChant from './components/ScrollingChant';
+import Logo from './components/Logo';
 
 const theme = createTheme({
   palette: {
@@ -592,9 +593,27 @@ function App() {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Namjaap
-              </Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center',
+                flexGrow: 1,
+                gap: 1
+              }}>
+                <Logo sx={{ 
+                  fontSize: { xs: '2rem', sm: '2.5rem' },
+                  color: 'inherit'
+                }} />
+                <Typography 
+                  variant="h6" 
+                  component="div"
+                  sx={{ 
+                    fontWeight: 'bold',
+                    letterSpacing: 1
+                  }}
+                >
+                  Namjaap
+                </Typography>
+              </Box>
             </Toolbar>
           </AppBar>
           <Box 
@@ -742,19 +761,29 @@ function App() {
               minHeight: { xs: '64px', sm: '80px' },
               bgcolor: 'primary.dark'
             }}>
-              <Typography 
-                variant="h3" 
-                component="div" 
-                sx={{ 
-                  py: { xs: 1, sm: 2 },
-                  fontWeight: 'bold',
-                  letterSpacing: 2,
-                  textAlign: 'center',
-                  width: '100%'
-                }}
-              >
-                Namjaap
-              </Typography>
+              <Box sx={{ 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                gap: 2
+              }}>
+                <Logo sx={{ 
+                  fontSize: { xs: '2.5rem', sm: '3rem' },
+                  color: 'inherit'
+                }} />
+                <Typography 
+                  variant="h3" 
+                  component="div" 
+                  sx={{ 
+                    py: { xs: 1, sm: 2 },
+                    fontWeight: 'bold',
+                    letterSpacing: 2,
+                  }}
+                >
+                  Namjaap
+                </Typography>
+              </Box>
             </Toolbar>
           </AppBar>
 
