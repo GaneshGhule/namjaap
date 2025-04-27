@@ -87,7 +87,15 @@ const loadFromStorage = () => {
 };
 
 function App() {
-  const today = new Date().toISOString().split('T')[0];
+  // Get today's date in local timezone
+  const getLocalDate = () => {
+    const now = new Date();
+    return now.getFullYear() + '-' + 
+           String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+           String(now.getDate()).padStart(2, '0');
+  };
+
+  const today = getLocalDate();
   const lastDateRef = useRef(today);
   
   // Load initial state from storage
@@ -131,7 +139,7 @@ function App() {
   // Check for day change
   useEffect(() => {
     const checkDayChange = () => {
-      const now = new Date().toISOString().split('T')[0];
+      const now = getLocalDate();
       if (now !== lastDateRef.current) {
         console.log('Day changed, resetting counts...');
         // Save any remaining counts before reset
@@ -181,7 +189,7 @@ function App() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        const now = new Date().toISOString().split('T')[0];
+        const now = getLocalDate();
         if (now !== lastDateRef.current) {
           // Trigger immediate day change check when app becomes visible
           const event = new Event('dayChange');
@@ -197,7 +205,7 @@ function App() {
   // Add day change event listener
   useEffect(() => {
     const handleDayChange = () => {
-      const now = new Date().toISOString().split('T')[0];
+      const now = getLocalDate();
       if (now !== lastDateRef.current) {
         console.log('Day changed event triggered');
         loadInitialState();
