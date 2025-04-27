@@ -476,7 +476,14 @@ function App() {
       maxWidth: 600,
       mx: 'auto'
     }}>
-      <Box sx={{ minWidth: 120, marginBottom: 3 }}>
+      <Box sx={{ 
+        minWidth: 120, 
+        marginBottom: 3, 
+        bgcolor: 'background.paper',
+        px: 2, 
+        py: 1, 
+        borderRadius: 1
+      }}>
         <FormControl fullWidth>
           <InputLabel>Select Chant</InputLabel>
           <Select
@@ -575,7 +582,7 @@ function App() {
       {isMobile ? (
         // Mobile Layout
         <>
-          <AppBar position="fixed" sx={{ top: 0 }}>
+          <AppBar position="fixed">
             <Toolbar>
               <IconButton
                 edge="start"
@@ -590,56 +597,193 @@ function App() {
               </Typography>
             </Toolbar>
           </AppBar>
-          <Container 
-            maxWidth="lg" 
+          <Box 
             sx={{ 
-              padding: '20px',
-              mt: '64px',
-              mb: '20px',
+              pt: '64px', // Height of AppBar
               minHeight: '100vh',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
+              bgcolor: 'background.default'
             }}
           >
-            {mainContent}
-          </Container>
+            <Box sx={{ 
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              p: 0
+            }}>
+              {/* Select Chant */}
+              <Box sx={{ 
+                bgcolor: 'background.paper',
+                px: 2, 
+                py: 1, 
+                borderRadius: 1
+              }}>
+                <FormControl 
+                  fullWidth
+                  sx={{ 
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 1,
+                      height: '56px'
+                    },
+                    '& .MuiSelect-select': {
+                      fontSize: '1.1rem'
+                    }
+                  }}
+                >
+                  <InputLabel>Select Chant</InputLabel>
+                  <Select
+                    value={selectedChant}
+                    label="Select Chant"
+                    onChange={(e) => {
+                      if (e.target.value === 'add_new') {
+                        setOpenDialog(true);
+                      } else {
+                        handleChantChange(e.target.value);
+                      }
+                    }}
+                  >
+                    <MenuItem disabled>
+                      <Typography variant="subtitle2" color="textSecondary">
+                        Predefined Chants
+                      </Typography>
+                    </MenuItem>
+                    {predefinedChants.map((chant) => (
+                      <MenuItem key={chant} value={chant}>
+                        {chant}
+                      </MenuItem>
+                    ))}
+                    
+                    {customChants.length > 0 && (
+                      <MenuItem disabled>
+                        <Typography variant="subtitle2" color="textSecondary">
+                          Custom Chants
+                        </Typography>
+                      </MenuItem>
+                    )}
+                    {customChants.map((chant) => (
+                      <MenuItem 
+                        key={chant} 
+                        value={chant}
+                        sx={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}
+                      >
+                        {chant}
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveChant(chant);
+                          }}
+                          sx={{ ml: 1 }}
+                        >
+                          ×
+                        </IconButton>
+                      </MenuItem>
+                    ))}
+                    
+                    <MenuItem value="add_new" sx={{ color: 'primary.main' }}>
+                      + Add New Chant
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
+              {/* Timer */}
+              <Box sx={{ px: 2 }}>
+                <Timer 
+                  isRunning={isTimerRunning}
+                  onToggle={handleTimerToggle}
+                  onReset={handleReset}
+                />
+              </Box>
+
+              {/* Scrolling Chant */}
+              <Box sx={{ px: 2 }}>
+                <ScrollingChant chantText={selectedChant} />
+              </Box>
+
+              {/* Count Display */}
+              <Box sx={{ px: 2, pb: 10 }}> {/* Added bottom padding for fixed button */}
+                <CountDisplay 
+                  currentCount={currentCount}
+                  malaCount={getTodayTotalMala()}
+                  totalCount={getTodayTotalCount()}
+                  totalTime={getTodayTotalTime()}
+                />
+              </Box>
+
+              {/* Chant Button - Fixed at bottom */}
+              <ChantButton 
+                onClick={handleChantCount}
+                disabled={false}
+              />
+            </Box>
+          </Box>
         </>
       ) : (
         // Desktop Layout
         <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-          <AppBar position="static" sx={{ mb: 4 }}>
-            <Toolbar sx={{ justifyContent: 'center' }}>
+          <AppBar position="static">
+            <Toolbar sx={{ 
+              minHeight: { xs: '64px', sm: '80px' },
+              bgcolor: 'primary.dark'
+            }}>
               <Typography 
                 variant="h3" 
                 component="div" 
                 sx={{ 
-                  py: 2,
+                  py: { xs: 1, sm: 2 },
                   fontWeight: 'bold',
                   letterSpacing: 2,
+                  textAlign: 'center',
+                  width: '100%'
                 }}
               >
                 Namjaap
               </Typography>
             </Toolbar>
           </AppBar>
-          <Container maxWidth="xl" sx={{ py: 4 }}>
-            <Grid container spacing={4}>
+
+          <Container 
+            maxWidth="xl" 
+            sx={{ 
+              py: { xs: 2, sm: 4 },
+              px: { xs: 0, sm: 3 } 
+            }}
+          >
+            <Grid container spacing={3}>
               {/* Left Panel - Counter */}
               <Grid item xs={12} md={6}>
                 <Paper 
                   elevation={3} 
                   sx={{ 
-                    p: 4, 
-                    borderRadius: 2,
+                    p: { xs: 2, sm: 3 },
+                    borderRadius: { xs: 0, sm: 2 }, 
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 3
+                    gap: { xs: 2, sm: 3 }
                   }}
                 >
-                  <Box sx={{ mb: 3 }}>
-                    <FormControl fullWidth>
+                  <Box sx={{ 
+                    width: '100%',
+                    px: { xs: 0, sm: 0 } 
+                  }}>
+                    <FormControl 
+                      fullWidth
+                      sx={{ 
+                        width: '100%',
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: { xs: 0, sm: 2 }, 
+                          height: { xs: '56px', sm: '56px' }
+                        },
+                        '& .MuiSelect-select': {
+                          fontSize: { xs: '1.1rem', sm: '1rem' } 
+                        }
+                      }}
+                    >
                       <InputLabel>Select Chant</InputLabel>
                       <Select
                         value={selectedChant}
@@ -701,31 +845,42 @@ function App() {
                     </FormControl>
                   </Box>
 
-                  <Timer 
-                    isRunning={isTimerRunning}
-                    onToggle={handleTimerToggle}
-                    onReset={handleReset}
-                  />
+                  <Box sx={{ width: '100%' }}>
+                    <Timer 
+                      isRunning={isTimerRunning}
+                      onToggle={handleTimerToggle}
+                      onReset={handleReset}
+                    />
+                  </Box>
 
-                  <ScrollingChant chantText={selectedChant} />
+                  <Box sx={{ width: '100%' }}>
+                    <ScrollingChant 
+                      chantText={selectedChant}
+                    />
+                  </Box>
 
                   <Box sx={{ 
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 3
+                    gap: { xs: 2, sm: 3 },
+                    width: '100%',
+                    mt: 'auto'
                   }}>
-                    <ChantButton 
-                      onClick={handleChantCount}
-                      disabled={false}
-                    />
+                    <Box sx={{ width: '100%' }}>
+                      <ChantButton 
+                        onClick={handleChantCount}
+                        disabled={false}
+                      />
+                    </Box>
 
-                    <CountDisplay 
-                      currentCount={currentCount}
-                      malaCount={getTodayTotalMala()}
-                      totalCount={getTodayTotalCount()}
-                      totalTime={getTodayTotalTime()}
-                    />
+                    <Box sx={{ width: '100%' }}>
+                      <CountDisplay 
+                        currentCount={currentCount}
+                        malaCount={getTodayTotalMala()}
+                        totalCount={getTodayTotalCount()}
+                        totalTime={getTodayTotalTime()}
+                      />
+                    </Box>
                   </Box>
                 </Paper>
               </Grid>
@@ -735,12 +890,12 @@ function App() {
                 <Paper 
                   elevation={3} 
                   sx={{ 
-                    p: 4, 
+                    p: { xs: 2, sm: 3 },
                     borderRadius: 2,
                     height: '100%',
                     bgcolor: 'background.paper',
                     overflowY: 'auto',
-                    maxHeight: 'calc(100vh - 200px)'
+                    maxHeight: { xs: '500px', sm: 'calc(100vh - 200px)' }
                   }}
                 >
                   <ChantHistory 

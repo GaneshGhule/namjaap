@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, useTheme, useMediaQuery, Box } from '@mui/material';
+import { Button, Box, useTheme, useMediaQuery } from '@mui/material';
 
 const ChantButton = ({ onClick, disabled }) => {
   const theme = useTheme();
@@ -11,28 +11,28 @@ const ChantButton = ({ onClick, disabled }) => {
       position: { xs: 'fixed', sm: 'static' },
       bottom: { xs: 0, sm: 'auto' },
       left: { xs: 0, sm: 'auto' },
-      right: { xs: 0, sm: 'auto' },
-      padding: { xs: '10px', sm: 0 },
-      backgroundColor: { xs: 'white', sm: 'transparent' },
-      boxShadow: { 
-        xs: '0px -2px 4px rgba(0,0,0,0.1)', 
-        sm: 'none' 
-      },
+      p: { xs: 2, sm: 0 },
+      bgcolor: { xs: 'background.paper', sm: 'transparent' },
       zIndex: { xs: 1000, sm: 1 },
+      boxShadow: { xs: '0px -2px 4px rgba(0,0,0,0.1)', sm: 'none' }
     }}>
-      <Button 
-        variant="contained" 
-        color="primary" 
+      <Button
+        variant="contained"
         onClick={onClick}
         disabled={disabled}
-        fullWidth={isMobile}
-        sx={{ 
-          fontSize: { xs: '1.25rem', sm: '1.2rem' },
-          padding: { xs: '15px', sm: '15px 30px' },
-          borderRadius: { xs: '8px', sm: '4px' },
-          maxWidth: { xs: '100%', sm: '300px' },
-          margin: '0 auto',
-          display: 'block',
+        sx={{
+          width: '100%',
+          height: { xs: '60px', sm: '80px' },
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          borderRadius: 2,
+          textTransform: 'none',
+          boxShadow: 3,
+          fontWeight: 'bold',
+          '&:hover': {
+            boxShadow: 5,
+            transform: 'scale(1.02)',
+            transition: 'all 0.2s ease-in-out'
+          }
         }}
       >
         Count Chant (+1)
