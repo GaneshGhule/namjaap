@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Chant Counter",
+    "slug": "chant-counter-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "@react-native-voice/voice"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chantcounter.app",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app needs access to microphone to detect your chants",
+        "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to count your chants",
+        "NSVoiceRecognitionUsageDescription": "This app uses voice recognition to count your chants"
+      }
+    },
+    "android": {
+      "package": "com.chantcounter.app",
+      "permissions": [
+        "RECORD_AUDIO",
+        "INTERNET"
+      ]
+    }
+  }
+}
