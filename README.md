@@ -1,32 +1,45 @@
-# Chant Counter App
+# Namjaap - Online Naam Jap Counter & Mala Counter
 
-A React Native application to track your daily chants with a simple interface.
+A modern, user-friendly web application for tracking your spiritual practice of naam jap (chanting). Perfect for daily meditation and spiritual practices.
 
 ## Features
-- Start/Stop chant counting
-- Reset counter
-- Daily history tracking
-- Simple and intuitive interface
 
-## Installation
+- 🕉️ Simple and intuitive chant counter
+- 📿 Automatic mala (108) count tracking
+- ⏱️ Built-in meditation timer
+- 📊 Daily history tracking
+- 💾 Persistent storage across sessions
+- 📱 Mobile-friendly design
+- ⚡ Fast and responsive
 
-1. Install dependencies:
-```bash
-npm install
-```
+## Try It Out
 
-2. Start the development server:
-```bash
-npm start
-```
-
-3. Use Expo Go app on your mobile device to scan the QR code and run the app
+Visit [Namjaap Counter](https://ganeshghule.github.io/namjaap/) to start using the application.
 
 ## Usage
-- Press "Start" to begin counting chants
-- Press "Stop" to pause counting
-- Press "Reset" to clear the current count
-- View your daily history at the bottom of the screen
 
-## Note
-This is a basic implementation that simulates chant detection. For actual voice detection, you would need to implement voice recognition using libraries like `@react-native-voice/voice`.
+1. Select your preferred chant text
+2. Use the count button to track your chants
+3. Timer automatically tracks your session duration
+4. View your daily progress in the history section
+5. Data is automatically saved locally
+
+## Technology
+
+Built with:
+- React
+- Material-UI
+- Local Storage for persistence
+- Progressive Web App capabilities
+
+## Contributing
+
+Feel free to open issues or submit pull requests if you have suggestions for improvements.
+
+## Keywords
+
+naam jap counter, japa mala counter, online mala counter, spiritual counter, meditation counter, chanting counter, 108 mala counter
+
+## License
+
+MIT License
