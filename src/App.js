@@ -604,122 +604,134 @@ function App() {
               bgcolor: 'background.default'
             }}
           >
-            <Box sx={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              p: 0
-            }}>
-              {/* Select Chant */}
+            {showHistory ? (
+              // History View for Mobile
+              <Box sx={{ p: 2 }}>
+                <ChantHistory 
+                  history={history} 
+                  onClearAll={handleClearAll}
+                  onClearDate={handleClearDate}
+                />
+              </Box>
+            ) : (
+              // Main Content for Mobile
               <Box sx={{ 
-                bgcolor: 'background.paper',
-                px: 2, 
-                py: 1, 
-                borderRadius: 1
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                p: 0
               }}>
-                <FormControl 
-                  fullWidth
-                  sx={{ 
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 1,
-                      height: '56px'
-                    },
-                    '& .MuiSelect-select': {
-                      fontSize: '1.1rem'
-                    }
-                  }}
-                >
-                  <InputLabel>Select Chant</InputLabel>
-                  <Select
-                    value={selectedChant}
-                    label="Select Chant"
-                    onChange={(e) => {
-                      if (e.target.value === 'add_new') {
-                        setOpenDialog(true);
-                      } else {
-                        handleChantChange(e.target.value);
+                {/* Select Chant */}
+                <Box sx={{ 
+                  bgcolor: 'background.paper',
+                  px: 2, 
+                  py: 1, 
+                  borderRadius: 1
+                }}>
+                  <FormControl 
+                    fullWidth
+                    sx={{ 
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 1,
+                        height: '56px'
+                      },
+                      '& .MuiSelect-select': {
+                        fontSize: '1.1rem'
                       }
                     }}
                   >
-                    <MenuItem disabled>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        Predefined Chants
-                      </Typography>
-                    </MenuItem>
-                    {predefinedChants.map((chant) => (
-                      <MenuItem key={chant} value={chant}>
-                        {chant}
-                      </MenuItem>
-                    ))}
-                    
-                    {customChants.length > 0 && (
+                    <InputLabel>Select Chant</InputLabel>
+                    <Select
+                      value={selectedChant}
+                      label="Select Chant"
+                      onChange={(e) => {
+                        if (e.target.value === 'add_new') {
+                          setOpenDialog(true);
+                        } else {
+                          handleChantChange(e.target.value);
+                        }
+                      }}
+                    >
                       <MenuItem disabled>
                         <Typography variant="subtitle2" color="textSecondary">
-                          Custom Chants
+                          Predefined Chants
                         </Typography>
                       </MenuItem>
-                    )}
-                    {customChants.map((chant) => (
-                      <MenuItem 
-                        key={chant} 
-                        value={chant}
-                        sx={{ 
-                          display: 'flex', 
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}
-                      >
-                        {chant}
-                        <IconButton
-                          size="small"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRemoveChant(chant);
+                      {predefinedChants.map((chant) => (
+                        <MenuItem key={chant} value={chant}>
+                          {chant}
+                        </MenuItem>
+                      ))}
+                      
+                      {customChants.length > 0 && (
+                        <MenuItem disabled>
+                          <Typography variant="subtitle2" color="textSecondary">
+                            Custom Chants
+                          </Typography>
+                        </MenuItem>
+                      )}
+                      {customChants.map((chant) => (
+                        <MenuItem 
+                          key={chant} 
+                          value={chant}
+                          sx={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
                           }}
-                          sx={{ ml: 1 }}
                         >
-                          ×
-                        </IconButton>
+                          {chant}
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRemoveChant(chant);
+                            }}
+                            sx={{ ml: 1 }}
+                          >
+                            ×
+                          </IconButton>
+                        </MenuItem>
+                      ))}
+                      
+                      <MenuItem value="add_new" sx={{ color: 'primary.main' }}>
+                        + Add New Chant
                       </MenuItem>
-                    ))}
-                    
-                    <MenuItem value="add_new" sx={{ color: 'primary.main' }}>
-                      + Add New Chant
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
+                    </Select>
+                  </FormControl>
+                </Box>
 
-              {/* Timer */}
-              <Box sx={{ px: 2 }}>
-                <Timer 
-                  isRunning={isTimerRunning}
-                  onToggle={handleTimerToggle}
-                  onReset={handleReset}
+                {/* Timer */}
+                <Box sx={{ px: 2 }}>
+                  <Timer 
+                    isRunning={isTimerRunning}
+                    onToggle={handleTimerToggle}
+                    onReset={handleReset}
+                  />
+                </Box>
+
+                {/* Scrolling Chant */}
+                <Box sx={{ px: 2 }}>
+                  <ScrollingChant chantText={selectedChant} />
+                </Box>
+
+                {/* Count Display */}
+                <Box sx={{ px: 2, pb: 10 }}> {/* Added bottom padding for fixed button */}
+                  <CountDisplay 
+                    currentCount={currentCount}
+                    malaCount={getTodayTotalMala()}
+                    totalCount={getTodayTotalCount()}
+                    totalTime={getTodayTotalTime()}
+                  />
+                </Box>
+
+                {/* Chant Button - Fixed at bottom */}
+                <ChantButton 
+                  onClick={handleChantCount}
+                  disabled={false}
                 />
               </Box>
-
-              {/* Scrolling Chant */}
-              <Box sx={{ px: 2 }}>
-                <ScrollingChant chantText={selectedChant} />
-              </Box>
-
-              {/* Count Display */}
-              <Box sx={{ px: 2, pb: 10 }}> {/* Added bottom padding for fixed button */}
-                <CountDisplay 
-                  currentCount={currentCount}
-                  malaCount={getTodayTotalMala()}
-                  totalCount={getTodayTotalCount()}
-                  totalTime={getTodayTotalTime()}
-                />
-              </Box>
-
-              {/* Chant Button - Fixed at bottom */}
-              <ChantButton 
-                onClick={handleChantCount}
-                disabled={false}
-              />
-            </Box>
+            )}
           </Box>
         </>
       ) : (
@@ -915,7 +927,39 @@ function App() {
         open={drawerOpen}
         onClose={toggleDrawer(false)}
       >
-        {drawerContent}
+        <Box
+          sx={{ width: 250 }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <List>
+            <ListItem 
+              button 
+              onClick={() => {
+                setShowHistory(false);
+                setDrawerOpen(false);
+              }}
+            >
+              <ListItemIcon>
+                <TimerIcon />
+              </ListItemIcon>
+              <ListItemText primary="Counter" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => {
+                setShowHistory(true);
+                setDrawerOpen(false);
+              }}
+            >
+              <ListItemIcon>
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="History" />
+            </ListItem>
+          </List>
+        </Box>
       </Drawer>
 
       {/* Add New Chant Dialog */}
